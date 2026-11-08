@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mosu's portfolio
 
-## Getting Started
+Personal portfolio for Patiphan Chiyakhun (Mosu), a Computer Science student interested in networking and DevOps. The site introduces Mosu, highlights GitHub projects and activity, and provides contact links.
 
-First, run the development server:
+## Run locally
+
+Install dependencies with Node.js and npm, then start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Customize the site
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Edit `app/profile.ts` for the name, introduction, contact details, GitHub username, featured repository names, and experience. Empty optional fields are hidden from the page.
+- Edit `app/page.tsx` for the page content and `app/globals.css` for the design.
+- Replace the images in `public/` to change the avatar and illustrations.
+- Edit `app/layout.tsx` for the page title and description.
 
-## Learn More
+The project list requests repository details from the GitHub API in the browser. If the request fails, featured repository names still link to GitHub. The contribution calendar uses `app/api/contributions/route.ts` to fetch public GitHub activity; its response is cached for one hour. These features need network access to GitHub.
 
-To learn more about Next.js, take a look at the following resources:
+## Commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with Next.js, React, TypeScript, and CSS.
