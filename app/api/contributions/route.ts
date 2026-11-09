@@ -25,6 +25,11 @@ export async function GET() {
 
     const uniqueDays = [...new Map(days.map(day => [day.date, day])).values()]
       .sort((a, b) => a.date.localeCompare(b.date));
+    // A partial match would otherwise render a plausible but incorrect calendar.
+    const completeYear = uniqueDays.length >= 365 && uniqueDays.length <= 371
+      && uniqueDays.every((day, index) => index === 0
+        || Date.parse(day.date + "T00:00:00Z") - Date.parse(uniqueDays[index - 1].date + "T00:00:00Z") === 86_400_000);
+    if (!completeYear) throw new Error("GitHub calendar is incomplete");
     const headerTotal = html.match(/([\d,]+)\s+contributions?\s+in\s+the\s+last\s+year/i)?.[1];
     const allCountsAvailable = uniqueDays.every(day => day.count !== null);
     const total = headerTotal

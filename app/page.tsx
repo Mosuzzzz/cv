@@ -89,7 +89,7 @@ function ContributionCard() {
   }
 
   return <section className="contributions" aria-label="GitHub contributions">
-    <div className="calendar-viewport"><div className="calendar-inner">
+    {status !== "error" && <div className="calendar-viewport"><div className="calendar-inner">
       <div className="months" aria-hidden="true">{monthLabels.map(month => <span key={month.name + month.week} style={{ gridColumn: month.week + 1 }}>{month.name}</span>)}</div>
       <div className="graph-row">
         <div className="weekdays" aria-hidden="true"><span /><span>Mon</span><span /><span>Wed</span><span /><span>Fri</span><span /></div>
@@ -97,10 +97,10 @@ function ContributionCard() {
           {cells.map((day, index) => <span key={index} className={"day l" + (day?.level ?? 0) + (day ? "" : " empty") + (selectedIndex === index ? " selected" : "")} onMouseEnter={() => day && setSelectedIndex(index)} aria-hidden="true" />)}
         </div>
       </div>
-    </div></div>
+    </div></div>}
     <div className="graph-footer">
-      <span aria-live="polite">{selectedLabel || (status === "loading" ? "Loading GitHub activity…" : status === "error" ? "GitHub activity is unavailable right now" : total === null ? "Activity in the last year" : `${total.toLocaleString()} contributions in the last year`)} on <a href={profile.github} target="_blank" rel="noopener noreferrer">@{profile.githubUsername}</a></span>
-      <span className="legend" aria-label="Activity level from less to more"><span>Less</span>{[0, 1, 2, 3, 4].map(level => <i className={"day l" + level} key={level} />)}<span>More</span></span>
+      <span aria-live="polite">{status === "error" ? <>GitHub activity is unavailable. <a href={profile.github} target="_blank" rel="noopener noreferrer">View it on GitHub</a>.</> : <>{selectedLabel || (status === "loading" ? "Loading GitHub activity…" : total === null ? "Activity in the last year" : `${total.toLocaleString()} contributions in the last year`)} on <a href={profile.github} target="_blank" rel="noopener noreferrer">@{profile.githubUsername}</a></>}</span>
+      {status !== "error" && <span className="legend" aria-label="Activity level from less to more"><span>Less</span>{[0, 1, 2, 3, 4].map(level => <i className={"day l" + level} key={level} />)}<span>More</span></span>}
     </div>
     <div className="actions">
       <span className="callout">{profile.bookingUrl || profile.email ? "Building something? Let's talk." : "Explore the work behind the graph."}</span>
@@ -133,12 +133,12 @@ function GitHubProjects() {
   return (
     <section className="content" id="work">
       <h2>things i&apos;ve built.</h2>
-      <div className="projects">{profile.featuredRepos.map(name => {
-        const repo = repos.find(item => normalize(item.name) === normalize(name));
-        return <article className="project" key={name}>
-          <div className="project-head"><a href={repo?.html_url || `${profile.github}/${encodeURIComponent(name)}`} target="_blank" rel="noopener noreferrer">{name}</a><span>{repo ? new Date(repo.created_at).getFullYear() : ""}</span></div>
+      <div className="projects">{profile.featuredRepos.map(project => {
+        const repo = repos.find(item => normalize(item.name) === normalize(project.name));
+        return <article className="project" key={project.name}>
+          <div className="project-head"><a href={repo?.html_url || `${profile.github}/${encodeURIComponent(project.name)}`} target="_blank" rel="noopener noreferrer">{project.name}</a><span>{repo ? new Date(repo.created_at).getFullYear() : ""}</span></div>
           {repo?.language && <p className="meta">{repo.language}{repo.stargazers_count > 0 ? ` · ★ ${repo.stargazers_count}` : ""}</p>}
-          {repo?.description && <p>{repo.description}</p>}
+          <p>{repo?.description || project.summary}</p>
         </article>;
       })}</div>
     </section>
@@ -182,6 +182,23 @@ export default function Home() {
 
       <ContributionCard />
       <GitHubProjects />
+
+      {profile.certificates.length > 0 && (
+        <section className="content certificates" aria-labelledby="certificates-title">
+          <h2 id="certificates-title">certificates.</h2>
+          <div className="certificate-grid">
+            {profile.certificates.map(certificate => (
+              <a className="polaroid" href={certificate.pdf} target="_blank" rel="noopener noreferrer" key={certificate.pdf} aria-label={`Open ${certificate.title} certificate PDF`}>
+                <Image src={certificate.image} alt={`${certificate.title} certificate${certificate.issuer ? ` from ${certificate.issuer}` : ""}`} width={certificate.width} height={certificate.height} sizes="200px" />
+                <span className="polaroid-caption">
+                  <strong>{certificate.title}</strong>
+                  {(certificate.issuer || certificate.date) && <small>{certificate.issuer}{certificate.issuer && certificate.date ? " · " : ""}{certificate.date}</small>}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       {profile.experience.length > 0 && (
         <section className="content">

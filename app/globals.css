@@ -14,10 +14,6 @@ body.light-theme a:hover{color:#17251b}
 .light .name,.light .company{color:#66776a}
 .light .role,.light .intro>p:not(.eyebrow),.light .project p:last-child,.light .job h3{color:#314238}
 .light .status,.light .date,.light .fact,.light .quote{color:#526357}
-.light
-.light
-.light
-.light
 .light .eyebrow,.light .content h2{color:#647569}
 .light .contributions{border-color:#a0a0a0;background:#d9d9d9}
 .light .months,.light .weekdays,.light .graph-footer{color:#536457}
@@ -72,3 +68,13 @@ body.light-theme a:hover{color:#17251b}
 .side-art-right{position:fixed;top:auto;left:auto;right:calc((100vw - 568px)/2 - 236px);bottom:0px;height:260px}.side-art-right img{width:350px;transform:translate(-70px,-30px)}
 .avatar-image{display:block;width:44px;height:44px;flex:none;object-fit:cover;border:1px solid #95a397;border-radius:12px}
 @media(max-width:560px){.avatar-image{width:40px;height:40px}}
+.certificate-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;padding:4px 8px 12px}
+.polaroid{display:block;width:min(100%,200px);padding:8px 8px 14px;background:#fff;color:#26382c;text-decoration:none;box-shadow:0 10px 26px #24382b25,0 2px 5px #24382b18;transform:rotate(-2deg);transition:transform .2s ease,box-shadow .2s ease}
+.polaroid:nth-child(even){transform:rotate(2deg)}
+.polaroid:hover,.polaroid:focus-visible{color:#26382c;transform:rotate(0) translateY(-4px);box-shadow:0 16px 32px #24382b30,0 3px 7px #24382b1c}
+.polaroid:focus-visible{outline:2px solid var(--green);outline-offset:5px}
+.polaroid img{display:block;width:100%;height:126px;object-fit:contain;background:#f2f3f2;border:1px solid #e6e9e6}
+.polaroid-caption{display:block;padding:12px 4px 0;text-align:center}
+.polaroid-caption strong{display:block;font:italic 15px/1.25 Georgia,serif}
+.polaroid-caption small{display:block;margin-top:5px;color:#59685d;font-size:10px}
+@media(prefers-reduced-motion:reduce){.polaroid{transition:none}}
