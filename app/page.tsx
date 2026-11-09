@@ -218,13 +218,21 @@ export default function Home() {
         </section>
       )}
 
-      {(profile.email || profile.github || profile.linkedin) && (
+      {(profile.github || profile.linkedin) && (
+        <section className="content profile-links" aria-label="Social links">
+          <h2>social.</h2>
+          <div>
+            {profile.github && <a className="social-link" href={profile.github} target="_blank" rel="noopener noreferrer"><GitHubIcon /> GitHub</a>}
+            {profile.linkedin && <a className="social-link" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
+          </div>
+        </section>
+      )}
+
+      {profile.email && (
         <section className="content profile-links">
           <h2>contact me.</h2>
           <div>
-            {profile.email && <a className="email-contact" href={"mailto:" + profile.email}><EmailIcon /> {profile.email}</a>}
-            {profile.github && <a className="github-contact" href={profile.github} target="_blank" rel="noopener noreferrer"><GitHubIcon /> GitHub</a>}
-            {profile.linkedin && <a href={profile.linkedin}>LinkedIn</a>}
+            <a className="email-contact" href={"mailto:" + profile.email}><EmailIcon /> {profile.email}</a>
           </div>
         </section>
       )}
